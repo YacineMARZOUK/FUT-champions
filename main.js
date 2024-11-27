@@ -1,5 +1,5 @@
 
-
+    const players = JSON.parse(localStorage.getItem("players"))
 let createbtn = document.getElementById("createbtn");
 let importbtn = document.getElementById("importbtn");
 let creaeteform = document.getElementById("createform");
@@ -14,7 +14,13 @@ importbtn.addEventListener("click", () => {
     formulaire.classList.add("from-green-700", "via-green-800");
 });
 
+createbtn.addEventListener("click", () => {
 
+    importform.classList.add("hidden");
+    creaeteform.classList.remove("hidden");
+    formulaire.classList.add("from-red-700", "via-red-800");
+    formulaire.classList.remove("from-green-700", "via-green-800");
+});
 
 document.getElementById("createform").addEventListener("submit", function (event) {
     event.preventDefault(); // Empêche l'envoi du formulaire par défaut
@@ -59,13 +65,8 @@ document.getElementById("createform").addEventListener("submit", function (event
       this.submit(); 
     }
   });
-  createbtn.addEventListener("click", () => {
 
-    importform.classList.add("hidden");
-    creaeteform.classList.remove("hidden");
-    formulaire.classList.add("from-red-700", "via-red-800");
-    formulaire.classList.remove("from-green-700", "via-green-800");
-    let remplacant = document.getElementById("replacant");
+  
   remplacant.innerHTML = `
     <div class="bg-opacity-30 bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-full h-full flex flex-col justify-center items-center max-w-sm mx-auto h-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black">
       <div class="flex justify-start">
@@ -98,9 +99,16 @@ document.getElementById("createform").addEventListener("submit", function (event
       </div>
     </div>
   `;
+  
+let createplayer = document.getElementById("createyourplayer");
+createplayer.addEventListener("click",function(){
+    let player = {
+        name: document.getElementById("playername").value,
+        position: document.getElementById("position").value,
+        status: document.getElementById("position").value
+        }
+        
 
-});
-
- 
-
+})
+  
   
