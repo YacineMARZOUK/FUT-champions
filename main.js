@@ -150,46 +150,54 @@ let statuss = document.getElementById("status");
   
   const allPlayersDiv = document.getElementById("allplayers");
 
-
-allPlayersDiv.innerHTML = "";
+// Configuration de la grille pour organiser les cartes
+allPlayersDiv.classList.add("grid", "grid-cols-3", "gap-4", "p-4");
 
 players.forEach(player => {
-  //  HTML pour chaque joueur
-  const labels = player.position
-  const playerCard = `
-    <div class="bg-opacity-30 bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-full h-full flex flex-col justify-center items-center max-w-sm mx-auto h-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black">
-      <div class="flex justify-start">
-        <div class="text-xs text-[#393218] mt-4">
-          <p class="font-extrabold">${player.rating}</p>
-          <p class="font-semibold">${player.position}</p>
+    const labels = player.position === "GK" 
+      ? ["DI", "HA", "KI", "RE", "SP", "PO"]
+      : ["PA", "SH", "PA", "DR", "DE", "PH"];
+  
+    const stats = player.position === "GK"
+      ? [player.diving, player.handling, player.kicking, player.reflexes, player.speed, player.positioning]
+      : [player.pace, player.shooting, player.passing, player.dribbling, player.defending, player.physical];
+  
+    const playerCard = `
+      <div class="bg-opacity-30 bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-64 h-80 flex flex-col justify-center items-center mx-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black">
+        <div class="flex justify-between text-center px-8 pt- mt-4">
+          <div class=" text-[#393218]">
+            <p class="font-extrabold text-lg leading-none">${player.rating}</p>
+            <p class="font-semibold text-lg leading-none">${player.position}</p>
+          </div>
         </div>
-        <div class="text-center text-xs text-[#393218] font-extra-bold">
-          <img src="${player.photo}" alt="${player.name}" class="w-[70px]">
-          <p class="font-extrabold text-[9px]">${player.name}</p>
+        <div class="text-center text-xs text-[#393218] font-extra-bold mt-2">
+          <img src="${player.photo}" alt="${player.name}" class="w-[10  0px] mx-auto">
+          <p class="font-extrabold text-base mt-1 truncate w-40 text-center">${player.name}</p>
+        </div>
+        <div class="boxes text-[15px]  text-[#393218] grid grid-cols-6  gap-2 leading-4">
+          <div>${labels[0]}</div>
+          <div>${labels[1]}</div>
+          <div>${labels[2]}</div>
+          <div>${labels[3]}</div>
+          <div>${labels[4]}</div>
+          <div>${labels[5]}</div>
+          <div class="font-extrabold">${stats[0] || '-'}</div>
+          <div class="font-extrabold">${stats[1] || '-'}</div>
+          <div class="font-extrabold">${stats[2] || '-'}</div>
+          <div class="font-extrabold">${stats[3] || '-'}</div>
+          <div class="font-extrabold">${stats[4] || '-'}</div>
+          <div class="font-extrabold">${stats[5] || '-'}</div>
+        </div>
+        <div class="flages grid grid-cols-2 gap-4 items-center mt-2">
+          <img src="${player.flag}" alt="${player.nationality}" class="w-[15px]">
+          <img src="${player.logo}" alt="${player.club}" class="w-[15px]">
         </div>
       </div>
-      <div class="boxes text-[9px] mt-4 text-[#393218] grid grid-cols-6 grid-rows-2 gap-[4px] justify-center items-center">
-        <div>PA</div>
-        <div>SH</div>
-        <div>PA</div>
-        <div>DR</div>
-        <div>DE</div>
-        <div>PH</div>
-        <div class="font-extrabold">${player.pace}</div>
-        <div class="font-extrabold">${player.shooting}</div>
-        <div class="font-extrabold">${player.passing}</div>
-        <div class="font-extrabold">${player.dribbling}</div>
-        <div class="font-extrabold">${player.defending}</div>
-        <div class="font-extrabold">${player.physical}</div>
-      </div>
-      <div class="flages grid grid-cols-2 gap-4 items-center">
-        <img src="${player.flag}" alt="${player.nationality}" class="w-[10px]">
-        <img src="${player.logo}" alt="${player.club}" class="w-[10px]">
-      </div>
-    </div>
-  `;
+    `;
+  
+    allPlayersDiv.innerHTML += playerCard;
+  });
+  
 
   
-  allPlayersDiv.innerHTML += playerCard;
-});
   
