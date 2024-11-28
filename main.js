@@ -1,8 +1,8 @@
 
     const players = JSON.parse(localStorage.getItem("players"))
 let createbtn = document.getElementById("createbtn");
-let importbtn = document.getElementById("importbtn");
-let creaeteform = document.getElementById("createform");
+let importbtn = document.getElementById("importbtn"); 
+let creaeteform = document.getElementById("creaeteform");
 let importform = document.getElementById("importform");
 let formulaire = document.getElementById("formulaire");
 let remplacant = document.getElementById("remplacant");
@@ -22,13 +22,14 @@ createbtn.addEventListener("click", () => {
     formulaire.classList.remove("from-green-700", "via-green-800");
 });
 
-document.getElementById("createform").addEventListener("submit", function (event) {
+document.getElementById("creaeteform").addEventListener("submit", function (event) {
     event.preventDefault(); // Empêche l'envoi du formulaire par défaut
   
     // Récupérer les champs du formulaire
     const playerName = document.getElementById("playername").value.trim();
     const position = document.getElementById("position").value;
     const status = document.querySelectorAll("#status input[type='number']");
+    
   
     // Initialiser les erreurs
     let errors = [];
@@ -46,25 +47,25 @@ document.getElementById("createform").addEventListener("submit", function (event
       errors.push("Veuillez sélectionner une position.");
     }
   
-    // Validation des statistiques
     status.forEach((status) => {
-      const value = parseInt(status.value, 10);
-      if (isNaN(value) || value < 0 || value > 100) {
-        const statName = status.placeholder.trim();
-        alert("La statistique doit être un nombre entre 0 et 100");
-        console.log(statName);
-      }
-    });
-  
-    // Afficher les erreurs ou soumettre
-    if (errors.length > 0) {
-      alert(errors.join("\n"));
-    } else {
-      alert("Joueur créé avec succès !");
+        const value = parseInt(status.value, 10);
+        if (isNaN(value) || value < 0 || value > 100) {
+          const statName = status.placeholder.trim();
+          alert("La statistique doit être un nombre entre 0 et 100");
+          console.log(statName);
+        }
+      });
       
-      this.submit(); 
-    }
-  });
+      // Afficher les erreurs ou soumettre
+      if (errors.length > 0) {
+        alert(errors.join("\n"));
+      } else {
+        alert("Joueur créé avec succès !");
+        
+        // Réinitialiser les champs du formulaire
+        document.querySelector("form").reset();
+      }})
+      
 
   
   remplacant.innerHTML = `
@@ -105,10 +106,90 @@ createplayer.addEventListener("click",function(){
     let player = {
         name: document.getElementById("playername").value,
         position: document.getElementById("position").value,
-        status: document.getElementById("position").value
+        Pace: document.getElementById("Pace").value,
+        Shooting: document.getElementById("Shooting").value,
+        Passing : document.getElementById("Passing").value,
+        Dribbling : document.getElementById("Dribbling").value,
+        Defending: document.getElementById("Defending").value,
+        Physical: document.getElementById("Physical").value,
         }
+        players.push(player);
+        localStorage.setItem("players", JSON.stringify(players));
+        console.log(players);
         
 
 })
+let statuss = document.getElementById("status");
+
+  document.getElementById('positionSelection').addEventListener('change',function(){
+
+    if(document.getElementById('positionSelection').value=="GK"){
+
+        document.getElementById('status').innerHTML=`
+            <input type="number" placeholder="diving" class="rounded pl-[10px]">
+            <input type="number" placeholder="handling" class="rounded pl-[10px]">
+            <input type="number" placeholder="kicking" class="rounded pl-[10px]">
+            <input type="number" placeholder="reflexes" class="rounded pl-[10px]">
+            <input type="number" placeholder="speed" class="rounded pl-[10px]">
+            <input type="number" placeholder="positioning" class="rounded pl-[10px] ">
+          `
+
+    }
+    else{
+        document.getElementById('status').innerHTML=`
+            <input type="number" placeholder="Pace " class="rounded pl-[10px] ">
+            <input type="number" placeholder="Shooting" class="rounded pl-[10px]">
+            <input type="number" placeholder="Passing" class="rounded pl-[10px]">
+            <input type="number" placeholder="Dribbling" class="rounded pl-[10px]">
+            <input type="number" placeholder="Defending" class="rounded pl-[10px]">
+            <input type="number" placeholder="Physical" class="rounded pl-[10px]">
+
+          `
+    }
+  });
   
+  const allPlayersDiv = document.getElementById("allplayers");
+
+
+allPlayersDiv.innerHTML = "";
+
+players.forEach(player => {
+  //  HTML pour chaque joueur
+  const labels = player.position
+  const playerCard = `
+    <div class="bg-opacity-30 bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-full h-full flex flex-col justify-center items-center max-w-sm mx-auto h-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black">
+      <div class="flex justify-start">
+        <div class="text-xs text-[#393218] mt-4">
+          <p class="font-extrabold">${player.rating}</p>
+          <p class="font-semibold">${player.position}</p>
+        </div>
+        <div class="text-center text-xs text-[#393218] font-extra-bold">
+          <img src="${player.photo}" alt="${player.name}" class="w-[70px]">
+          <p class="font-extrabold text-[9px]">${player.name}</p>
+        </div>
+      </div>
+      <div class="boxes text-[9px] mt-4 text-[#393218] grid grid-cols-6 grid-rows-2 gap-[4px] justify-center items-center">
+        <div>PA</div>
+        <div>SH</div>
+        <div>PA</div>
+        <div>DR</div>
+        <div>DE</div>
+        <div>PH</div>
+        <div class="font-extrabold">${player.pace}</div>
+        <div class="font-extrabold">${player.shooting}</div>
+        <div class="font-extrabold">${player.passing}</div>
+        <div class="font-extrabold">${player.dribbling}</div>
+        <div class="font-extrabold">${player.defending}</div>
+        <div class="font-extrabold">${player.physical}</div>
+      </div>
+      <div class="flages grid grid-cols-2 gap-4 items-center">
+        <img src="${player.flag}" alt="${player.nationality}" class="w-[10px]">
+        <img src="${player.logo}" alt="${player.club}" class="w-[10px]">
+      </div>
+    </div>
+  `;
+
+  
+  allPlayersDiv.innerHTML += playerCard;
+});
   
