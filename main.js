@@ -1,4 +1,6 @@
-
+// fetch('players.json')
+// .then(data => data.json())
+// .then(data => localStorage.setItem("players", JSON.stringify(data.players)))
     const players = JSON.parse(localStorage.getItem("players"))
 let createbtn = document.getElementById("createbtn");
 let importbtn = document.getElementById("importbtn"); 
@@ -48,8 +50,8 @@ document.getElementById("creaeteform").addEventListener("submit", function (even
     }
   
     status.forEach((status) => {
-        const value = parseInt(status.value, 10);
-        if (isNaN(value) || value < 0 || value > 100) {
+        const value = parseInt(status.value );
+        if ( value < 0 || value > 100) {
           const statName = status.placeholder.trim();
           alert("La statistique doit être un nombre entre 0 et 100");
           console.log(statName);
@@ -100,23 +102,39 @@ document.getElementById("creaeteform").addEventListener("submit", function (even
       </div>
     </div>
   `;
-  
+  // creer le player
 let createplayer = document.getElementById("createyourplayer");
 createplayer.addEventListener("click",function(){
-    let player = {
+    let playere = {
         name: document.getElementById("playername").value,
-        position: document.getElementById("position").value,
-        Pace: document.getElementById("Pace").value,
-        Shooting: document.getElementById("Shooting").value,
-        Passing : document.getElementById("Passing").value,
-        Dribbling : document.getElementById("Dribbling").value,
-        Defending: document.getElementById("Defending").value,
-        Physical: document.getElementById("Physical").value,
+        position: document.getElementById("positionSelection").value,
+        
         }
-        players.push(player);
+        console.log(playere)
+        if(playere.position=="GK"){
+          playere.diving = document.getElementById("diving").value,
+          playere.kicking= document.getElementById("kicking").value,
+          playere.reflexes=document.getElementById("reflexes").value,
+          playere.speed= document.getElementById("speed").value,
+          playere.handling= document.getElementById("handling").value
+          playere.positioning= document.getElementById("Positioning").value
+
+        }
+        else{
+        playere.pace= document.getElementById("Pace").value,
+        playere.shooting= document.getElementById("Shooting").value,
+        playere.passing = document.getElementById("Passing").value,
+        playere.dribbling = document.getElementById("Dribbling").value,
+        playere.defending= document.getElementById("Defending").value,
+        playere.physical= document.getElementById("Physical").value
+
+        }
+        console.log(playere)
+        players.push(playere);
+        showPlayer()
         localStorage.setItem("players", JSON.stringify(players));
         console.log(players);
-        
+
 
 })
 let statuss = document.getElementById("status");
@@ -126,23 +144,23 @@ let statuss = document.getElementById("status");
     if(document.getElementById('positionSelection').value=="GK"){
 
         document.getElementById('status').innerHTML=`
-            <input type="number" placeholder="diving" class="rounded pl-[10px]">
-            <input type="number" placeholder="handling" class="rounded pl-[10px]">
-            <input type="number" placeholder="kicking" class="rounded pl-[10px]">
-            <input type="number" placeholder="reflexes" class="rounded pl-[10px]">
-            <input type="number" placeholder="speed" class="rounded pl-[10px]">
-            <input type="number" placeholder="positioning" class="rounded pl-[10px] ">
+            <input type="number" placeholder="diving" id="diving" class="rounded pl-[10px]">
+            <input type="number" placeholder="handling" id="handling" class="rounded pl-[10px]">
+            <input type="number" placeholder="kicking" id="kicking" class="rounded pl-[10px]">
+            <input type="number" placeholder="reflexes" id="reflexes" class="rounded pl-[10px]">
+            <input type="number" placeholder="speed" id="speed" class="rounded pl-[10px]">
+            <input type="number" placeholder="positioning" id="Positioning" class="rounded pl-[10px] ">
           `
 
     }
     else{
         document.getElementById('status').innerHTML=`
-            <input type="number" placeholder="Pace " class="rounded pl-[10px] ">
-            <input type="number" placeholder="Shooting" class="rounded pl-[10px]">
-            <input type="number" placeholder="Passing" class="rounded pl-[10px]">
-            <input type="number" placeholder="Dribbling" class="rounded pl-[10px]">
-            <input type="number" placeholder="Defending" class="rounded pl-[10px]">
-            <input type="number" placeholder="Physical" class="rounded pl-[10px]">
+           <input type="number" placeholder="Pace" id="Pace" class="rounded pl-[10px] text-red">
+            <input type="number" placeholder="Shooting"id="Shooting" class="rounded pl-[10px]">
+            <input type="number" placeholder="Passing" id="Passing" class="rounded pl-[10px]">
+            <input type="number" placeholder="Dribbling" id="Dribbling" class="rounded pl-[10px]">
+            <input type="number" placeholder="Defending" id="Defending" class="rounded pl-[10px]">
+            <input type="number" placeholder="Physical" id="Physical"  class="rounded pl-[10px]">
 
           `
     }
@@ -152,8 +170,11 @@ let statuss = document.getElementById("status");
 
 // Configuration de la grille pour organiser les cartes
 allPlayersDiv.classList.add("grid", "grid-cols-3", "gap-4", "p-4");
-
-players.forEach(player => {
+showPlayer()
+function showPlayer(){
+  allPlayersDiv.innerHTML = ``
+  
+  players.forEach(player => {
     const labels = player.position === "GK" 
       ? ["DI", "HA", "KI", "RE", "SP", "PO"]
       : ["PA", "SH", "PA", "DR", "DE", "PH"];
@@ -163,7 +184,7 @@ players.forEach(player => {
       : [player.pace, player.shooting, player.passing, player.dribbling, player.defending, player.physical];
   
     const playerCard = `
-      <div class="bg-opacity-30 bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-64 h-80 flex flex-col justify-center items-center mx-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black">
+      <div class="bg-opacity-30  bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-64 h-80 flex flex-col justify-center items-center mx-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black">
         <div class="flex justify-between text-center px-8 pt- mt-4">
           <div class=" text-[#393218]">
             <p class="font-extrabold text-lg leading-none">${player.rating}</p>
@@ -181,7 +202,7 @@ players.forEach(player => {
           <div>${labels[3]}</div>
           <div>${labels[4]}</div>
           <div>${labels[5]}</div>
-          <div class="font-extrabold">${stats[0] || '-'}</div>
+          <div class="font-extrabold">${stats[0] }</div>
           <div class="font-extrabold">${stats[1] || '-'}</div>
           <div class="font-extrabold">${stats[2] || '-'}</div>
           <div class="font-extrabold">${stats[3] || '-'}</div>
@@ -194,9 +215,9 @@ players.forEach(player => {
         </div>
       </div>
     `;
-  
     allPlayersDiv.innerHTML += playerCard;
   });
+}
   
 
   
