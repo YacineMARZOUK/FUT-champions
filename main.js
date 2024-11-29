@@ -105,10 +105,14 @@ document.getElementById("creaeteform").addEventListener("submit", function (even
   // creer le player
 let createplayer = document.getElementById("createyourplayer");
 createplayer.addEventListener("click",function(){
+  console.log(document.getElementById("raiting").value);
     let playere = {
         name: document.getElementById("playername").value,
         position: document.getElementById("positionSelection").value,
-        
+        rating : document.getElementById("raiting").value,
+        photo : document.getElementById("photo").value,
+        flag : document.getElementById("flag").value,
+        logo : document.getElementById("logo").value
         }
         console.log(playere)
         if(playere.position=="GK"){
@@ -129,11 +133,16 @@ createplayer.addEventListener("click",function(){
         playere.physical= document.getElementById("Physical").value
 
         }
+        
+
+
+
         console.log(playere)
         players.push(playere);
         showPlayer()
         localStorage.setItem("players", JSON.stringify(players));
         console.log(players);
+
 
 
 })
@@ -175,6 +184,7 @@ function showPlayer(){
   allPlayersDiv.innerHTML = ``
   
   players.forEach(player => {
+    console.log('a+', player)
     const labels = player.position === "GK" 
       ? ["DI", "HA", "KI", "RE", "SP", "PO"]
       : ["PA", "SH", "PA", "DR", "DE", "PH"];
@@ -192,7 +202,7 @@ function showPlayer(){
           </div>
         </div>
         <div class="text-center text-xs text-[#393218] font-extra-bold mt-2">
-          <img src="${player.photo}" alt="${player.name}" class="w-[10  0px] mx-auto">
+          <img  src="${player.photo}" alt="${player.name}" class="w-[10  0px] mx-auto">
           <p class="font-extrabold text-base mt-1 truncate w-40 text-center">${player.name}</p>
         </div>
         <div class="boxes text-[15px]  text-[#393218] grid grid-cols-6  gap-2 leading-4">
@@ -219,6 +229,11 @@ function showPlayer(){
   });
 }
   
+const allcards = document.querySelectorAll(".card");
+allcards.forEach(card){
+allcards.addEventListener("click",function(){
+   document.getElementById("popup").style.display='flex'
 
+})}
   
   
