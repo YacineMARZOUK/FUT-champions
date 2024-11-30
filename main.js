@@ -1,3 +1,4 @@
+// localStorage.clear();
 // fetch('players.json')
 // .then(data => data.json())
 // .then(data => localStorage.setItem("players", JSON.stringify(data.players)))
@@ -68,7 +69,7 @@ document.getElementById("creaeteform").addEventListener("submit", function (even
         document.querySelector("form").reset();
       }})
       
-
+      addEventForCards()
   
   remplacant.innerHTML = `
     <div class="bg-opacity-30 bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-full h-full flex flex-col justify-center items-center max-w-sm mx-auto h-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black">
@@ -107,6 +108,7 @@ let createplayer = document.getElementById("createyourplayer");
 createplayer.addEventListener("click",function(){
   console.log(document.getElementById("raiting").value);
     let playere = {
+        id:players.length,
         name: document.getElementById("playername").value,
         position: document.getElementById("positionSelection").value,
         rating : document.getElementById("raiting").value,
@@ -144,7 +146,7 @@ createplayer.addEventListener("click",function(){
         console.log(players);
 
 
-
+        addEventForCards()
 })
 let statuss = document.getElementById("status");
 
@@ -184,7 +186,7 @@ function showPlayer(){
   allPlayersDiv.innerHTML = ``
   
   players.forEach(player => {
-    console.log('a+', player)
+    
     const labels = player.position === "GK" 
       ? ["DI", "HA", "KI", "RE", "SP", "PO"]
       : ["PA", "SH", "PA", "DR", "DE", "PH"];
@@ -194,7 +196,7 @@ function showPlayer(){
       : [player.pace, player.shooting, player.passing, player.dribbling, player.defending, player.physical];
   
     const playerCard = `
-      <div class="bg-opacity-30  bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-64 h-80 flex flex-col justify-center items-center mx-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black">
+      <div class="bg-opacity-30  bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-64 h-80 flex flex-col justify-center items-center mx-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black " id="${player.id}" >
         <div class="flex justify-between text-center px-8 pt- mt-4">
           <div class=" text-[#393218]">
             <p class="font-extrabold text-lg leading-none">${player.rating}</p>
@@ -228,12 +230,124 @@ function showPlayer(){
     allPlayersDiv.innerHTML += playerCard;
   });
 }
+  // add the popup of players
+  const allCards = document.querySelectorAll(".card");
+let Container
+  allCards.forEach(card => {
+    card.addEventListener("click", function (e) {
+      console.log(e.target.id);
+      Container = e.target.id
+      const popup = document.getElementById("popup");
+      popup.style.display = "flex";
+      popup.classList.add("flex-wrap");
   
-const allcards = document.querySelectorAll(".card");
-allcards.forEach(card){
-allcards.addEventListener("click",function(){
-   document.getElementById("popup").style.display='flex'
+      // Réinitialiser le contenu de la popup
+      popup.innerHTML = `
+        <button onclick="document.getElementById('popup').style.display='none'" 
+                id="close-popup" 
+                class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+          Close
+        </button>
+      `;
+  
+      // Trouver les joueurs correspondants
+      players.forEach(player => {
+        if (player.position === e.target.id) {
+          const labels = player.position === "GK"
+            ? ["DI", "HA", "KI", "RE", "SP", "PO"]
+            : ["PA", "SH", "PA", "DR", "DE", "PH"];
+  
+          const stats = player.position === "GK"
+            ? [player.diving, player.handling, player.kicking, player.reflexes, player.speed, player.positioning]
+            : [player.pace, player.shooting, player.passing, player.dribbling, player.defending, player.physical];
+  
+          // Créer une carte pour chaque joueur
+          const playerCard = document.createElement("div");
+          playerCard.className = `
+            choosed bg-center bg-no-repeat bg-cover w-64 h-80 flex flex-col 
+            justify-center items-center mx-auto shadow-none transition-shadow 
+            duration-300 cursor-pointer hover:shadow-lg hover:shadow-black 
+            bg-opacity-30 bg-[url('img/badge_gold.webp')]
+          `;
+          playerCard.id = player.id
+          playerCard.innerHTML = `
+            <div class="flex justify-between text-center px-8 pt-4 mt-4">
+              <div class="text-[#393218]">
+                <p class="font-extrabold text-lg leading-none">${player.rating}</p>
+                <p class="font-semibold text-lg leading-none">${player.position}</p>
+              </div>
+            </div>
+            <div class="text-center text-xs text-[#393218] font-extrabold mt-2">
+              <img src="${player.photo}" alt="${player.name}" class="w-[100px] mx-auto">
+              <p class="font-extrabold text-base mt-1 truncate w-40 text-center">${player.name}</p>
+            </div>
+            <div class="boxes text-[15px] text-[#393218] grid grid-cols-6 gap-2 leading-4">
+              ${labels.map((label, index) => `
+                <div>${label}</div>
+                <div class="font-extrabold">${stats[index] || '-'}</div>
+              `).join('')}
+            </div>
+            <div class="flages grid grid-cols-2 gap-4 items-center mt-2">
+              <img src="${player.flag}" alt="${player.nationality}" class="w-[15px]">
+              <img src="${player.logo}" alt="${player.club}" class="w-[15px]">
+            </div>
+          `;
+  
+          // Ajouter la carte au popup
+          popup.appendChild(playerCard);
+          addEventForCards()
+        }
+      });
+    });
+  });
+  
+  
+function addEventForCards(){
+    let choosed = document.querySelectorAll(".choosed");
+  console.log(choosed)
+  choosed.forEach(card=>{
+    card.addEventListener("click",function(event){
+      let div = document.getElementById(Container)
+      console.log(typeof(event.target.id))
+      players.forEach(player=>{
+        if(player.id == event.target.id&&event.target.id!=""){
+          div.innerHTML = `
+              <div
+        class="card bg-opacity-30  bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-full h-full flex flex-col justify-center items-center max-w-sm mx-auto h-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black" id="${player.position}">
+        <div class="flex justify-start ">
+          <div class="text-xs text-[#393218]  mt-4">
+            <p class="font-extrabold">${player.rating}</p>
+            <p class="font-semibold">${player.position}</p>
+          </div>
+          <div class="text-center text-xs text-[#393218] font-extra-bold">
+            <img src="${player.photo}" alt="${player.photo}" class="w-[70px]">
+            <p class="font-extrabold text-[9px]">${player.name}</p>
+          </div>
+        </div>
+        <div
+          class="boxes text-[9px] mt-4 text-[#393218] grid grid-cols-6 grid-rows-2 gap-[4px]   justify-center items-center">
+          <div>PA</div>
+          <div>SH</div>
+          <div>PA</div>
+          <div>DR</div>
+          <div>DE</div>
+          <div>PH</div>
+          <div class="font-extrabold">${player.pace}</div>
+          <div class="font-extrabold">${player.shooting}</div>
+          <div class="font-extrabold">${player.passing}</div>
+          <div class="font-extrabold">${player.dribbling}</div>
+          <div class="font-extrabold">${player.defending}</div>
+          <div class="font-extrabold">${player.physical}</div>
+        </div>
+        <div class="flages grid grid-cols-2 gap-4 items-center ">
+          <img src="${player.flag}" alt="" class="w-[10px]">
+          <img src="${player.logo}" alt="" class="w-[10px]">
+        </div>
+      </div>
+          `
+        }
+      })
 
-})}
-  
-  
+    })
+  })
+}
