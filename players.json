@@ -122,7 +122,7 @@
       {
         "id": 7,
         "name": "Mohamed Salah",
-        "photo": "https://discordapp.com/channels/@me/1312461321681240114/1312461329981898772",
+        "photo": "https://cdn.sofifa.net/players/190/871/25_120.png",
         "position": "CMR",
         "nationality": "Egypt",
         "flag": "https://cdn.sofifa.net/flags/eg.png",
@@ -347,6 +347,7 @@
         "nationality": "England",
         "flag": "https://cdn.sofifa.net/flags/gb-eng.png",
         "club": "Liverpool",
+        "logo": "https://cdn.sofifa.net/meta/team/8/120.png",
         "rating": 87,
         "pace": 76,
         "shooting": 66,

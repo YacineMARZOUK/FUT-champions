@@ -196,7 +196,7 @@ function showPlayer(){
       : [player.pace, player.shooting, player.passing, player.dribbling, player.defending, player.physical];
   
     const playerCard = `
-      <div class="bg-opacity-30  bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-64 h-80 flex flex-col justify-center items-center mx-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black " id="${player.id}" >
+      <div class="bg-opacity-30  bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-64 h-80 flex flex-col justify-center items-center mx-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black " id="${player.id}" onclick="DeletePlayer(${player.id})">
         <div class="flex justify-between text-center px-8 pt- mt-4">
           <div class=" text-[#393218]">
             <p class="font-extrabold text-lg leading-none">${player.rating}</p>
@@ -301,16 +301,17 @@ let Container
     });
   });
   
-  
 function addEventForCards(){
     let choosed = document.querySelectorAll(".choosed");
   console.log(choosed)
   choosed.forEach(card=>{
     card.addEventListener("click",function(event){
       let div = document.getElementById(Container)
+
       console.log(typeof(event.target.id))
       players.forEach(player=>{
         if(player.id == event.target.id&&event.target.id!=""){
+          
           div.innerHTML = `
               <div
         class="card bg-opacity-30  bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-full h-full flex flex-col justify-center items-center max-w-sm mx-auto h-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black" id="${player.position}">
@@ -350,4 +351,18 @@ function addEventForCards(){
 
     })
   })
+}
+
+function DeletePlayer(idToRemove) {
+  
+  // Parse players from localStorage
+  let players = JSON.parse(localStorage.getItem("players")) || [];
+ 
+  // Filter out the player with the given id
+  players = players.filter(player => player.id != idToRemove);
+  
+  // Update localStorage with the new array
+  localStorage.setItem("players", JSON.stringify(players));
+  // Refresh the displayed players
+  showPlayer();
 }
