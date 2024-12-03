@@ -1,7 +1,13 @@
 // localStorage.clear();
 // fetch('players.json')
 // .then(data => data.json())
-// .then(data => localStorage.setItem("players", JSON.stringify(data.players)))
+// .then(data => 
+//   fillLocalstorage(data.players)
+// )
+
+function fillLocalstorage(data){
+  localStorage.setItem("players", JSON.stringify(data))
+}
     const players = JSON.parse(localStorage.getItem("players"))
 let createbtn = document.getElementById("createbtn");
 let importbtn = document.getElementById("importbtn"); 
@@ -18,6 +24,7 @@ importbtn.addEventListener("click", () => {
 });
 
 createbtn.addEventListener("click", () => {
+  querySelectorAll
 
     importform.classList.add("hidden");
     creaeteform.classList.remove("hidden");
@@ -39,23 +46,25 @@ document.getElementById("creaeteform").addEventListener("submit", function (even
   
     // Validation du nom du joueur
     if (playerName.length < 3) {
-      errors.push("Le nom du joueur doit contenir au moins 3 caractères.");
+      alert("Le nom du joueur doit contenir au moins 3 caractères.");
     }
     if (!/^[a-zA-Z\s]+$/.test(playerName)) {
-        errors.push("Le nom complet doit contenir uniquement des lettres et des espaces.");
+        alert("Le nom complet doit contenir uniquement des lettres et des espaces.");
     }
   
     // Validation de la position
     if (!position) {
-      errors.push("Veuillez sélectionner une position.");
+      alert("Veuillez sélectionner une position.");
     }
-  
+    let isValid = true ;
     status.forEach((status) => {
-        const value = parseInt(status.value );
+        const value = status.value ;
+       
         if ( value < 0 || value > 100) {
           const statName = status.placeholder.trim();
-          alert("La statistique doit être un nombre entre 0 et 100");
+          
           console.log(statName);
+          isValid= false;
         }
       });
       
@@ -63,91 +72,67 @@ document.getElementById("creaeteform").addEventListener("submit", function (even
       if (errors.length > 0) {
         alert(errors.join("\n"));
       } else {
-        alert("Joueur créé avec succès !");
+        
         
         // Réinitialiser les champs du formulaire
         document.querySelector("form").reset();
-      }})
+      }
+    if(isValid ){
+      
+     
+        console.log(document.getElementById("raiting").value);
+          let playere = {
+              id:players.length,
+              name: document.getElementById("playername").value,
+              position: document.getElementById("positionSelection").value,
+              rating : document.getElementById("raiting").value,
+              photo : document.getElementById("photo").value,
+              flag : document.getElementById("flag").value,
+              logo : document.getElementById("logo").value
+              }
+              console.log(playere)
+              if(playere.position=="GK"){
+                playere.diving = document.getElementById("diving").value,
+                playere.kicking= document.getElementById("kicking").value,
+                playere.reflexes=document.getElementById("reflexes").value,
+                playere.speed= document.getElementById("speed").value,
+                playere.handling= document.getElementById("handling").value
+                playere.positioning= document.getElementById("Positioning").value
+      
+              }
+              else{
+              playere.pace= document.getElementById("Pace").value,
+              playere.shooting= document.getElementById("Shooting").value,
+              playere.passing = document.getElementById("Passing").value,
+              playere.dribbling = document.getElementById("Dribbling").value,
+              playere.defending= document.getElementById("Defending").value,
+              playere.physical= document.getElementById("Physical").value
+      
+              }
+              
+      
+      
+      
+              console.log(playere)
+              players.push(playere);
+              showPlayer(players)
+              localStorage.setItem("players", JSON.stringify(players));
+              console.log(players);
+      
+      
+              addEventForCards()
+              alert("Joueur créé avec succès !");
+            }
+            else 
+            alert("le status est invalid La statistique doit être un nombre entre 0 et 100");
+    
+    })
       
       addEventForCards()
   
-  remplacant.innerHTML = `
-    <div class="bg-opacity-30 bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-full h-full flex flex-col justify-center items-center max-w-sm mx-auto h-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black">
-      <div class="flex justify-start">
-        <div class="text-xs text-[#393218] leading-2 my-6">
-          <p class="font-extrabold text-lg">90</p>
-          <p class="font-semibold text-lg">Cf</p>
-        </div>
-        <div class="text-center mt-5 text-[#393218] font-extra-bold mr-[10px] flex flex-col">
-          <img src="https://cdn.sofifa.net/players/158/023/25_120.png" alt="messi" class="w-[120px]">
-          <p class="font-extrabold text-[12px]">Messi</p>
-        </div>
-      </div>
-      <div class="boxes text-[12px] text-[#393218] grid grid-cols-6 grid-rows-2 gap-[4px]">
-        <div>PA</div>
-        <div>SH</div>
-        <div>PA</div>
-        <div>DR</div>
-        <div>DE</div>
-        <div>PH</div>
-        <div class="font-extrabold">80</div>
-        <div class="font-extrabold">87</div>
-        <div class="font-extrabold">90</div>
-        <div class="font-extrabold">94</div>
-        <div class="font-extrabold">33</div>
-        <div class="font-extrabold">64</div>
-      </div>
-      <div class="flages grid grid-cols-2 gap-4 items-center">
-        <img src="https://cdn.sofifa.net/flags/ar.png" alt="" class="w-[14px]">
-        <img src="https://cdn.sofifa.net/meta/team/239235/120.png" alt="" class="w-[14px]">
-      </div>
-    </div>
-  `;
+  
   // creer le player
-let createplayer = document.getElementById("createyourplayer");
-createplayer.addEventListener("click",function(){
-  console.log(document.getElementById("raiting").value);
-    let playere = {
-        id:players.length,
-        name: document.getElementById("playername").value,
-        position: document.getElementById("positionSelection").value,
-        rating : document.getElementById("raiting").value,
-        photo : document.getElementById("photo").value,
-        flag : document.getElementById("flag").value,
-        logo : document.getElementById("logo").value
-        }
-        console.log(playere)
-        if(playere.position=="GK"){
-          playere.diving = document.getElementById("diving").value,
-          playere.kicking= document.getElementById("kicking").value,
-          playere.reflexes=document.getElementById("reflexes").value,
-          playere.speed= document.getElementById("speed").value,
-          playere.handling= document.getElementById("handling").value
-          playere.positioning= document.getElementById("Positioning").value
 
-        }
-        else{
-        playere.pace= document.getElementById("Pace").value,
-        playere.shooting= document.getElementById("Shooting").value,
-        playere.passing = document.getElementById("Passing").value,
-        playere.dribbling = document.getElementById("Dribbling").value,
-        playere.defending= document.getElementById("Defending").value,
-        playere.physical= document.getElementById("Physical").value
-
-        }
-        
-
-
-
-        console.log(playere)
-        players.push(playere);
-        showPlayer()
-        localStorage.setItem("players", JSON.stringify(players));
-        console.log(players);
-
-
-        addEventForCards()
-})
 let statuss = document.getElementById("status");
 
   document.getElementById('positionSelection').addEventListener('change',function(){
@@ -181,10 +166,9 @@ let statuss = document.getElementById("status");
 
 // Configuration de la grille pour organiser les cartes
 allPlayersDiv.classList.add("grid", "grid-cols-3", "gap-4", "p-4");
-showPlayer()
-function showPlayer(){
+showPlayer(players)
+function showPlayer(players){
   allPlayersDiv.innerHTML = ``
-  
   players.forEach(player => {
     
     const labels = player.position === "GK" 
@@ -196,8 +180,9 @@ function showPlayer(){
       : [player.pace, player.shooting, player.passing, player.dribbling, player.defending, player.physical];
   
     const playerCard = `
-      <div class="bg-opacity-30  bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-64 h-80 flex flex-col justify-center items-center mx-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black " id="${player.id}" onclick="DeletePlayer(${player.id})">
+      <div class="bg-opacity-30  bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-64 h-80 flex flex-col justify-center items-center mx-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black " id="${player.id}" >
         <div class="flex justify-between text-center px-8 pt- mt-4">
+        <button class="bg-red-700 text-white font-bold py-2 px-4 rounded mr-[10px] cursor-pointer hover:shadow-lg hover:shadow-black" onclick="DeletePlayer(${player.id})" >Delete </button>
           <div class=" text-[#393218]">
             <p class="font-extrabold text-lg leading-none">${player.rating}</p>
             <p class="font-semibold text-lg leading-none">${player.position}</p>
@@ -308,10 +293,32 @@ function addEventForCards(){
     card.addEventListener("click",function(event){
       let div = document.getElementById(Container)
 
-      console.log(typeof(event.target.id))
+
       players.forEach(player=>{
         if(player.id == event.target.id&&event.target.id!=""){
-          
+          let stats1;
+          let stats2;
+          let stats3;
+          let stats4;
+          let stats5;
+          let stats6;
+                  player.position === "GK"
+                    ? [stats1 = player.diving,
+                      stats2  = player.handling,
+                      stats3 = player.kicking,
+                      stats4 =  player.reflexes,
+                      stats5 =  player.speed,
+                      stats6 =   player.positioning]
+                    : [stats1 = player.pace,
+                      stats2  = player.shooting,
+                      stats3 = player.passing,
+                      stats4 =  player.dribbling,
+                      stats5 =  player.defending,
+                      stats6 =   player.physical]
+                      const labels = player.position === "GK"
+            ? ["DI", "HA", "KI", "RE", "SP", "PO"]
+            : ["PA", "SH", "PA", "DR", "DE", "PH"];
+
           div.innerHTML = `
               <div
         class="card bg-opacity-30  bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-full h-full flex flex-col justify-center items-center max-w-sm mx-auto h-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black" id="${player.position}">
@@ -327,18 +334,18 @@ function addEventForCards(){
         </div>
         <div
           class="boxes text-[9px] mt-4 text-[#393218] grid grid-cols-6 grid-rows-2 gap-[4px]   justify-center items-center">
-          <div>PA</div>
-          <div>SH</div>
-          <div>PA</div>
-          <div>DR</div>
-          <div>DE</div>
-          <div>PH</div>
-          <div class="font-extrabold">${player.pace}</div>
-          <div class="font-extrabold">${player.shooting}</div>
-          <div class="font-extrabold">${player.passing}</div>
-          <div class="font-extrabold">${player.dribbling}</div>
-          <div class="font-extrabold">${player.defending}</div>
-          <div class="font-extrabold">${player.physical}</div>
+          <div>${labels[0]}</div>
+          <div>${labels[1]}</div>
+          <div>${labels[2]}</div>
+          <div>${labels[3]}</div>
+          <div>${labels[4]}</div>
+          <div>${labels[5]}</div>
+          <div class="font-extrabold">${stats1}</div>
+          <div class="font-extrabold">${stats2}</div>
+          <div class="font-extrabold">${stats3}</div>
+          <div class="font-extrabold">${stats4}</div>
+          <div class="font-extrabold">${stats5}</div>
+          <div class="font-extrabold">${stats6}</div>
         </div>
         <div class="flages grid grid-cols-2 gap-4 items-center ">
           <img src="${player.flag}" alt="" class="w-[10px]">
@@ -359,10 +366,11 @@ function DeletePlayer(idToRemove) {
   let players = JSON.parse(localStorage.getItem("players")) || [];
  
   // Filter out the player with the given id
-  players = players.filter(player => player.id != idToRemove);
+ players = players.filter(player => player.id != idToRemove);
   
   // Update localStorage with the new array
   localStorage.setItem("players", JSON.stringify(players));
   // Refresh the displayed players
-  showPlayer();
+ 
+  showPlayer(players);
 }
