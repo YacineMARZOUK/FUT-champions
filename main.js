@@ -165,7 +165,7 @@ let statuss = document.getElementById("status");
   const allPlayersDiv = document.getElementById("allplayers");
 
 // Configuration de la grille pour organiser les cartes
-allPlayersDiv.classList.add("grid", "grid-cols-3", "gap-4", "p-4");
+
 showPlayer(players)
 function showPlayer(players){
   allPlayersDiv.innerHTML = ``
@@ -180,37 +180,32 @@ function showPlayer(players){
       : [player.pace, player.shooting, player.passing, player.dribbling, player.defending, player.physical];
   
     const playerCard = `
-      <div class="bg-opacity-30  bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-64 h-80 flex flex-col justify-center items-center mx-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black " id="${player.id}" >
-        <div class="flex justify-between text-center px-8 pt- mt-4">
-        <button class="bg-red-700 text-white font-bold py-2 px-4 rounded mr-[10px] cursor-pointer hover:shadow-lg hover:shadow-black" onclick="DeletePlayer(${player.id})" >Delete </button>
-          <div class=" text-[#393218]">
-            <p class="font-extrabold text-lg leading-none">${player.rating}</p>
-            <p class="font-semibold text-lg leading-none">${player.position}</p>
-          </div>
-        </div>
-        <div class="text-center text-xs text-[#393218] font-extra-bold mt-2">
-          <img  src="${player.photo}" alt="${player.name}" class="w-[10  0px] mx-auto">
-          <p class="font-extrabold text-base mt-1 truncate w-40 text-center">${player.name}</p>
-        </div>
-        <div class="boxes text-[15px]  text-[#393218] grid grid-cols-6  gap-2 leading-4">
-          <div>${labels[0]}</div>
-          <div>${labels[1]}</div>
-          <div>${labels[2]}</div>
-          <div>${labels[3]}</div>
-          <div>${labels[4]}</div>
-          <div>${labels[5]}</div>
-          <div class="font-extrabold">${stats[0] }</div>
-          <div class="font-extrabold">${stats[1] || '-'}</div>
-          <div class="font-extrabold">${stats[2] || '-'}</div>
-          <div class="font-extrabold">${stats[3] || '-'}</div>
-          <div class="font-extrabold">${stats[4] || '-'}</div>
-          <div class="font-extrabold">${stats[5] || '-'}</div>
-        </div>
-        <div class="flages grid grid-cols-2 gap-4 items-center mt-2">
-          <img src="${player.flag}" alt="${player.nationality}" class="w-[15px]">
-          <img src="${player.logo}" alt="${player.club}" class="w-[15px]">
-        </div>
+       <div class="bg-opacity-30 bg-[url('img/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-[80%] h-auto sm:w-64 sm:h-80 flex flex-col justify-center items-center mx-auto shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black" id="${player.id}">
+    <div class="flex flex-wrap justify-between text-center px-4 sm:px-8 pt-4">
+      <button class="bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 sm:mb-0 mr-0 sm:mr-[10px] cursor-pointer hover:shadow-lg hover:shadow-black" onclick="DeletePlayer(${player.id})">
+        Delete
+      </button>
+      <div class="text-[#393218]">
+        <p class="font-extrabold text-base sm:text-lg ">${player.rating}</p>
+        <p class="font-semibold text-sm sm:text-lg leading-none">${player.position}</p>
       </div>
+    </div>
+    <div class="text-center text-xs text-[#393218] font-extrabold mt-2">
+      <img src="${player.photo}" alt="${player.name}" class="w-20 sm:w-[100px] mx-auto">
+      <p class="font-extrabold text-base mt-1 truncate w-full sm:w-40 text-center">${player.name}</p>
+    </div>
+    <div class="boxes text-[15px] text-[#393218] grid grid-cols-6 gap-2 leading-4">
+              ${labels.map((label, index) => `
+                <div>${label}</div>
+                <div class="font-extrabold">${stats[index] || '-'}</div>
+              `).join('')}
+            </div>
+    <div class="flags grid grid-cols-2 gap-x-4 items-center mt-4">
+      <img src="${player.flag}" alt="${player.nationality}" class="w-4 sm:w-[15px]">
+      <img src="${player.logo}" alt="${player.club}" class="w-4 sm:w-[15px]">
+    </div>
+  </div>
+</div>
     `;
     allPlayersDiv.innerHTML += playerCard;
   });

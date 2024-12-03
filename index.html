@@ -37,11 +37,11 @@
 
 
   <!-- Section with background image -->
-  <div class="flex justify-between bg-cover bg-center flex-wrap bg-no-repeat p-16 bg-fixed" 
+  <div class="flex flex-col lg:flex-row justify-between bg-cover bg-center flex-wrap bg-no-repeat p-16 bg-fixed" 
      style="background-image: url('img/barca.jpg');">
 
     <div
-      class="w-[60%] bg-[url('../img/stadium_background.webp')] bg-center bg-no-repeat bg-cover h-screen grid grid-cols-5 grid-rows-4 gap-1 p-4 flex flex-col">
+      class="w-[100%] lg:w-[60%] bg-[url('../img/stadium_background.png')] bg-center bg-no-repeat bg-cover h-screen grid grid-cols-5 grid-rows-4 gap-1 p-4 flex flex-col">
       <!-- Grid Items -->
 
       <div class="">7</div>
@@ -60,7 +60,7 @@
         <!-- <div
           class="boxes text-[9px] mt-4 text-[#393218] grid grid-cols-6 grid-rows-2 gap-[4px]   justify-center items-center">
           <div>PA</div>
-          <div>SH</div>
+          <div>SH</div> 
           <div>PA</div>
           <div>DR</div>
           <div>DE</div>
@@ -428,7 +428,7 @@
     <div class="flex flex-col  w-[30%]">
 
       <div id="formulaire"
-        class="bg-black bg-opacity-50 p-4 bg-gradient-to-b from-red-700 via-red-800  p-4 flex-1 rounded-md">
+        class=" bg-black bg-opacity-50 p-4 bg-gradient-to-b from-red-700 via-red-800  p-4  rounded-md">
         <div class="flex justify-evenly">
           <button id="createbtn"
             class=" bg-black text-white font-bold py-2 px-4  rounded-md  mx-auto  shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-black  ">Create
@@ -523,7 +523,7 @@
       <div class="w-full flex justify-center">
         <p class="">All players</p>
       </div> 
-      <div class="grid grid-cols-6 w-full "id="allplayers">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 w-full" id="allplayers">
 
       </div>
      </div>
