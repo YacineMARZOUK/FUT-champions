@@ -1,13 +1,10 @@
 // localStorage.clear();
 // fetch('players.json')
 // .then(data => data.json())
-// .then(data => 
-//   fillLocalstorage(data.players)
+// .then(data => localStorage.setItem("players", JSON.stringify(²players))
 // )
 
-function fillLocalstorage(data){
-  localStorage.setItem("players", JSON.stringify(data))
-}
+
     const players = JSON.parse(localStorage.getItem("players"))
 let createbtn = document.getElementById("createbtn");
 let importbtn = document.getElementById("importbtn"); 
@@ -33,17 +30,13 @@ createbtn.addEventListener("click", () => {
 });
 
 document.getElementById("creaeteform").addEventListener("submit", function (event) {
-    event.preventDefault(); // Empêche l'envoi du formulaire par défaut
+    event.preventDefault(); 
   
     // Récupérer les champs du formulaire
     const playerName = document.getElementById("playername").value.trim();
     const position = document.getElementById("position").value;
     const status = document.querySelectorAll("#status input[type='number']");
-    
-  
-    // Initialiser les erreurs
-    let errors = [];
-  
+ 
     // Validation du nom du joueur
     if (playerName.length < 3) {
       alert("Le nom du joueur doit contenir au moins 3 caractères.");
@@ -61,25 +54,15 @@ document.getElementById("creaeteform").addEventListener("submit", function (even
         const value = status.value ;
        
         if ( value < 0 || value > 100) {
-          const statName = status.placeholder.trim();
-          
-          console.log(statName);
+         
           isValid= false;
         }
       });
       
-      // Afficher les erreurs ou soumettre
-      if (errors.length > 0) {
-        alert(errors.join("\n"));
-      } else {
-        
-        
-        // Réinitialiser les champs du formulaire
-        document.querySelector("form").reset();
-      }
+     
     if(isValid ){
       
-     
+     //stocker les infos dans palyere************************************************************************
         console.log(document.getElementById("raiting").value);
           let playere = {
               id:players.length,
@@ -131,7 +114,7 @@ document.getElementById("creaeteform").addEventListener("submit", function (even
       addEventForCards()
   
   
-  // creer le player
+  // creer la dropdown dapres le select de user ***************************************** 
 
 let statuss = document.getElementById("status");
 
@@ -164,7 +147,8 @@ let statuss = document.getElementById("status");
   
   const allPlayersDiv = document.getElementById("allplayers");
 
-// Configuration de la grille pour organiser les cartes
+// ajouter les players to allplayer ***********************************************************************************
+
 
 showPlayer(players)
 function showPlayer(players){
@@ -205,12 +189,12 @@ function showPlayer(players){
       <img src="${player.logo}" alt="${player.club}" class="w-4 sm:w-[15px]">
     </div>
   </div>
-</div>
+</div>  
     `;
     allPlayersDiv.innerHTML += playerCard;
   });
 }
-  // add the popup of players
+  // ajouter popup de players **************************************************************************
   const allCards = document.querySelectorAll(".card");
 let Container
   allCards.forEach(card => {
@@ -219,7 +203,7 @@ let Container
       Container = e.target.id
       const popup = document.getElementById("popup");
       popup.style.display = "flex";
-      popup.classList.add("flex-wrap");
+      popup.classList.add("flex-wrap"); 
   
       // Réinitialiser le contenu de la popup
       popup.innerHTML = `
@@ -230,7 +214,7 @@ let Container
         </button>
       `;
   
-      // Trouver les joueurs correspondants
+      // Trouver les joueurs correspondants pour les afficher en popup
       players.forEach(player => {
         if (player.position === e.target.id) {
           const labels = player.position === "GK"
@@ -265,7 +249,7 @@ let Container
               ${labels.map((label, index) => `
                 <div>${label}</div>
                 <div class="font-extrabold">${stats[index] || '-'}</div>
-              `).join('')}
+              `)}
             </div>
             <div class="flages grid grid-cols-2 gap-4 items-center mt-2">
               <img src="${player.flag}" alt="${player.nationality}" class="w-[15px]">
@@ -280,7 +264,7 @@ let Container
       });
     });
   });
-  
+   // afficher le joueur qui va jouer************************************************************************
 function addEventForCards(){
     let choosed = document.querySelectorAll(".choosed");
   console.log(choosed)
@@ -357,15 +341,11 @@ function addEventForCards(){
 
 function DeletePlayer(idToRemove) {
   
-  // Parse players from localStorage
+  // initialiseee loclalstoraggge 
   let players = JSON.parse(localStorage.getItem("players")) || [];
- 
-  // Filter out the player with the given id
- players = players.filter(player => player.id != idToRemove);
-  
-  // Update localStorage with the new array
+ players = players.filter(player => player.id != idToRemove);  // supmrimer le joueur qui on idtoremove
   localStorage.setItem("players", JSON.stringify(players));
-  // Refresh the displayed players
- 
+
   showPlayer(players);
-}
+} 
+
