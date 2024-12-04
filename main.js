@@ -41,14 +41,14 @@ document.getElementById("creaeteform").addEventListener("submit", function (even
     if (playerName.length < 3) {
       alert("Le nom du joueur doit contenir au moins 3 caractères.");
     }
-    if (!/^[a-zA-Z\s]+$/.test(playerName)) {
+    else if (!/^[a-zA-Z\s]+$/.test(playerName)) {
         alert("Le nom complet doit contenir uniquement des lettres et des espaces.");
     }
   
     // Validation de la position
-    if (!position) {
+    else if (!position) {
       alert("Veuillez sélectionner une position.");
-    }
+    } else {
     let isValid = true ;
     status.forEach((status) => {
         const value = status.value ;
@@ -108,11 +108,11 @@ document.getElementById("creaeteform").addEventListener("submit", function (even
             }
             else 
             alert("le status est invalid La statistique doit être un nombre entre 0 et 100");
-    
+          }
     })
       
       addEventForCards()
-  
+    
   
   // creer la dropdown dapres le select de user ***************************************** 
 
